@@ -146,7 +146,7 @@ def render_content(tab):
             range_bajo_txt = "Bajo: Rango no disponible"
             range_medio_txt = "Medio: Rango no disponible"
             range_alto_txt = "Alto: Rango no disponible"
-            rangos_desemp_text = "Rangos no disponibles" # Fallback for the old variable if needed elsewhere, though we replace its direct use
+            rangos_desemp_text = "Rangos no disponibles" 
 
         performance_counts = datos_limpios['desemp'].value_counts().reset_index()
         performance_counts.columns = ['Nivel de Desempeño', 'Cantidad']
