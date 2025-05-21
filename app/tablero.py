@@ -12,6 +12,9 @@ app = dash.Dash(__name__,
                     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'
                 ])
 
+app.title = "Proyecto 2"
+server = app.server
+
 # --- Carga y Preparación Inicial de Datos ---
 datos_limpios = pd.read_csv('model_data.csv')
 datos_limpios['desemp'] = pd.qcut(datos_limpios['punt_global'], q=3, labels=['Bajo', 'Medio', 'Alto'])
@@ -150,17 +153,25 @@ def render_content(tab):
 
         performance_counts = datos_limpios['desemp'].value_counts().reset_index()
         performance_counts.columns = ['Nivel de Desempeño', 'Cantidad']
-        fig_performance = px.bar(performance_counts,
-                                 x='Nivel de Desempeño',
-                                 y='Cantidad',
-                                 color='Nivel de Desempeño',
-                                 color_discrete_map={'Bajo': '#e74c3c', 'Medio': '#f39c12', 'Alto': '#2ecc71'},
-                                 text_auto=True)
-        fig_performance.update_layout(
-            title_font_family="Roboto", font_family="Roboto", title_x=0.5, legend_title_text='Nivel',
-            plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)'
+        fig_performance = px.histogram(
+            datos_limpios, 
+            x='punt_global',
+            color='desemp',
+            title='Distribución de Puntajes Globales por Nivel de Desempeño',
+            labels={'punt_global': 'Puntaje Global', 'count': 'Cantidad de Estudiantes', 'desemp': 'Nivel de Desempeño'},
+            color_discrete_map={'Bajo': '#e74c3c', 'Medio': '#f39c12', 'Alto': '#2ecc71'},
+            nbins=30,
+            opacity=0.8
         )
-        fig_performance.update_traces(textposition='outside')
+        fig_performance.update_layout(
+            title_font_family="Roboto", 
+            font_family="Roboto", 
+            title_x=0.5, 
+            legend_title_text='Nivel',
+            plot_bgcolor='rgba(0,0,0,0)', 
+            paper_bgcolor='rgba(0,0,0,0)',
+            bargap=0.1
+        )
 
         # --- NUEVO: Estadísticas y Box Plot para punt_global ---
         summary_stats = datos_limpios['punt_global'].describe()
@@ -257,7 +268,7 @@ def render_content(tab):
             
             html.Div([
                 html.Div([
-                    html.H5("Distribución de Niveles de Desempeño General", style={'textAlign': 'center', 'fontFamily': 'Roboto', 'color': '#34495e'}),
+                    html.H5("Distribución de Puntajes Globales por Nivel de Desempeño", style={'textAlign': 'center', 'fontFamily': 'Roboto', 'color': '#34495e'}),
                     html.Div([
                         html.P(range_bajo_txt, style={'textAlign': 'center', 'fontFamily': 'Roboto', 'fontSize': '14px', 'color': '#555', 'marginBottom': '3px'}),
                         html.P(range_medio_txt, style={'textAlign': 'center', 'fontFamily': 'Roboto', 'fontSize': '14px', 'color': '#555', 'marginBottom': '3px'}),

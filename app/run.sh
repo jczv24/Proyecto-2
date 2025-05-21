@@ -1,0 +1,1 @@
+gunicorn tablero:server -b :$PORT
