@@ -386,8 +386,8 @@ def render_content(tab):
     elif tab == 'tab-2':
         # Predecir usando ejemplo
         prediccion = modelo.predict(nuevo_usuario_procesado)[0][0]
-        ingresa = "Ingresa" if prediccion >= 0.7 else "No ingresa"
-        color = "#2ecc71" if prediccion >= 0.7 else "#e74c3c"
+        ingresa = "Ingresa" if prediccion >= 0.5 else "No ingresa"
+        color = "#2ecc71" if prediccion >= 0.5 else "#e74c3c"
 
         return html.Div([
             html.H3("Modelo Predictivo - Simulador de Admisión",
@@ -884,8 +884,8 @@ def predict_admission(n_clicks, edad, tipodoc, genero, depto, area, calendario, 
         prediccion = modelo.predict(usuario_procesado)[0][0]
         
         # Determinar si ingresa según la probabilidad
-        ingresa = "Ingresa" if prediccion >= 0.7 else "No ingresa"
-        color = "#2ecc71" if prediccion >= 0.7 else "#e74c3c"
+        ingresa = "Ingresa" if prediccion >= 0.5 else "No ingresa"
+        color = "#2ecc71" if prediccion >= 0.5 else "#e74c3c"
         
         # Crear el resultado visual
         return html.Div([
